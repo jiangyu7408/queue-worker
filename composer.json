@@ -9,6 +9,10 @@
         }
     ],
     "minimum-stability": "dev",
+    "platform": {
+        "php": ">=5.5"
+    },
+    "prefer-stable": true,
     "require": {
         "symfony/var-dumper": "^3.0"
     },
