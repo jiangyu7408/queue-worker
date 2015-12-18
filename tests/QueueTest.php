@@ -8,6 +8,7 @@
 namespace Queue\Worker\Job;
 
 use Queue\Worker\Queue\QueueWriter;
+use Queue\Worker\Token\Token;
 
 require __DIR__.'/../vendor/autoload.php';
 
@@ -21,13 +22,15 @@ class QueueTest extends \PHPUnit_Framework_TestCase
      */
     public function test()
     {
-        $payload = json_encode([
-                                   'uid' => 17692,
-                                   'timestamp' => microtime(true),
-                               ]);
+        $payload = json_encode(
+            [
+                'uid' => 17692,
+                'timestamp' => microtime(true),
+            ]
+        );
 
-        $jobBuilder = new JobBuilder();
-        $job = $jobBuilder->build(new TestJob(), $payload);
+        $jobBuilder = new JobBuilder(new TestJob(), new Token());
+        $job = $jobBuilder->build($payload);
         static::assertInstanceOf(TestJob::class, $job);
 
         $queueWriter = new QueueWriter();

@@ -9,7 +9,7 @@
 namespace Queue\Worker\Worker;
 
 use Queue\Worker\Job\JobInterface;
-use Queue\Worker\JobStatus\JobStatusFactory;
+use Queue\Worker\JobStatus\JobStatus;
 
 /**
  * Class JobProcessor.
@@ -17,26 +17,11 @@ use Queue\Worker\JobStatus\JobStatusFactory;
 class JobProcessor
 {
     /**
-     * @var JobStatusFactory
-     */
-    protected $jobStatusFactory;
-
-    /**
-     * JobProcessor constructor.
-     *
-     * @param JobStatusFactory $jobStatusFactory
-     */
-    public function __construct(JobStatusFactory $jobStatusFactory)
-    {
-        $this->jobStatusFactory = $jobStatusFactory;
-    }
-
-    /**
      * @param JobInterface $job
+     * @param JobStatus    $jobStatus
      */
-    public function process(JobInterface $job)
+    public function process(JobInterface $job, JobStatus $jobStatus)
     {
-        $jobStatus = $this->jobStatusFactory->create($job);
         $jobStatus->setRunning();
         try {
             $job->setUp();

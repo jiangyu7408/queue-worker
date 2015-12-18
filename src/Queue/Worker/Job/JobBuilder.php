@@ -16,25 +16,36 @@ use Queue\Worker\Token\Token;
 class JobBuilder
 {
     /**
-     * @param JobInterface $job
-     * @param string       $payload
+     * JobBuilder constructor.
+     *
+     * @param JobInterface $jobProto
+     * @param Token        $tokenProto
+     */
+    public function __construct(JobInterface $jobProto, Token $tokenProto)
+    {
+        $this->jobProto = $jobProto;
+        $this->tokenProto = $tokenProto;
+    }
+
+    /**
+     * @param string $payload
      *
      * @return JobInterface
      */
-    public function build(JobInterface $job, $payload)
+    public function build($payload)
     {
         if (!is_string($payload)) {
             throw new \InvalidArgumentException('bad arg: payload');
         }
 
-        $job = clone $job;
+        $jobProto = clone $this->jobProto;
 
-        $token = new Token();
-        $token->fromPayload($payload);
-        $job->setToken($token);
+        $tokenProto = clone $this->tokenProto;
+        $tokenProto->fromPayload($payload);
+        $jobProto->setToken($tokenProto);
 
-        $job->setPayload($payload);
+        $jobProto->setPayload($payload);
 
-        return $job;
+        return $jobProto;
     }
 }
