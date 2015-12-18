@@ -8,8 +8,6 @@
  */
 namespace Queue\Worker\Job;
 
-use Queue\Worker\Token\Token;
-
 /**
  * Class SerializerTest.
  */
@@ -21,13 +19,8 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
     public function test()
     {
         $payload = json_encode(['time' => microtime(true)]);
-        $job = new TestJob();
-        $job->setPayload($payload);
-
-        $token = new Token();
-        $token->fromPayload($payload);
-        $job->setToken($token);
-        static::assertTrue(strlen($token->toString()) > 0);
+        $job = (new JobBuilder())->build(new TestJob(), $payload);
+        $token = $job->getToken();
 
         static::assertEquals($payload, $job->getPayload());
 

@@ -52,7 +52,6 @@ class JobStatus
     public function setToken(TokenInterface $token)
     {
         $this->token = $token;
-        dump($this);
     }
 
     /**

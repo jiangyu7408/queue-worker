@@ -39,7 +39,6 @@ class JobStatusFactory
     {
         assert($this->prototype instanceof JobStatus);
         $instance = clone $this->prototype;
-
         $instance->setToken($job->getToken());
 
         return $instance;

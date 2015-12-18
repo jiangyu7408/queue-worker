@@ -29,7 +29,9 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $jobStatusFactory = new JobStatusFactory($prototype);
         $processor = new JobProcessor($jobStatusFactory);
 
-        $job = new TestJob(json_encode(['time' => microtime(true)]));
+        $payload = json_encode(['time' => microtime(true)]);
+        $job = (new JobBuilder())->build(new TestJob(), $payload);
+
         $processor->process($job);
 
         $jobStatus = $jobStatusFactory->create($job);

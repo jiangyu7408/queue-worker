@@ -21,11 +21,14 @@ class QueueTest extends \PHPUnit_Framework_TestCase
      */
     public function test()
     {
-        $payload = [
-            'uid' => 17692,
-            'timestamp' => microtime(true),
-        ];
-        $job = new TestJob(json_encode($payload));
+        $payload = json_encode([
+                                   'uid' => 17692,
+                                   'timestamp' => microtime(true),
+                               ]);
+
+        $jobBuilder = new JobBuilder();
+        $job = $jobBuilder->build(new TestJob(), $payload);
+        static::assertInstanceOf(TestJob::class, $job);
 
         $queueWriter = new QueueWriter();
         $queueWriter->enqueue($job);

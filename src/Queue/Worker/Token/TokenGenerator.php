@@ -20,7 +20,6 @@ class TokenGenerator
      */
     public function generate($payload)
     {
-        dump(__METHOD__.' token on payload('.$payload.')');
         assert(is_string($payload) || is_numeric($payload));
 
         return crc32(uniqid(md5($payload)));
