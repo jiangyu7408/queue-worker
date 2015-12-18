@@ -1,5 +1,6 @@
 {
-    "name": "jiangyu/queue-daemon",
+    "name": "jiangyu/queue-worker",
+    "type": "library",
     "description": "A daemon framework for handling requests from Queue",
     "license": "MIT",
     "authors": [
@@ -13,6 +14,14 @@
         "php": ">=5.5"
     },
     "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Queue\\Worker\\": "src"
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
     "require": {
         "symfony/var-dumper": "^3.0"
     },
